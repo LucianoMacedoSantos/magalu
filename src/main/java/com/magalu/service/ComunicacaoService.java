@@ -22,11 +22,10 @@ public class ComunicacaoService {
         return comunicacaoRepository.findById(id);
     }
 
-    public void cancelarComuicacao(Long id) {
-        Optional<Comunicacao> comunicacao = comunicacaoRepository.findById(id);
-        comunicacao.ifPresent(c -> {
-            c.setStatus("cancelado");
-            comunicacaoRepository.save(c);
+    public Optional<Comunicacao> cancelarComunicacao(Long id) {
+        return comunicacaoRepository.findById(id).map(comunicacao -> {
+            comunicacao.setStatus("cancelado");
+            return comunicacaoRepository.save(comunicacao);
         });
     }
 }

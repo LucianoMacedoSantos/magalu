@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/comunicacao")
+@RequestMapping("/api/comunicacoes")
 public class ComunicacaoController {
 
     @Autowired
@@ -29,7 +29,11 @@ public class ComunicacaoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> cancelarComunicacao(@PathVariable Long id) {
-        comunicacaoService.cancelarComuicacao(id);
-        return ResponseEntity.noContent().build();
+        Optional<Comunicacao> comunicacaoCancelada = comunicacaoService.cancelarComunicacao(id);
+        if (comunicacaoCancelada.isPresent()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
